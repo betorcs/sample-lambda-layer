@@ -1,0 +1,18 @@
+task buildLayer(type: Copy) {
+    from ("lib/build/bin/linuxX64/calcReleaseShared") {
+        include "**/*.so"
+    }
+    into "calculator-lib/lib"
+}
+
+buildLayer.dependsOn(":lib:assemble")
+
+task deploySls {
+}
+
+deploySls.dependsOn(":sls:deployServerless")
+
+wrapper {
+    gradleVersion = "5.3.1"
+    distributionType = "ALL"
+}

@@ -1,0 +1,39 @@
+service: calc # NOTE: update this with your service name
+
+provider:
+  name: aws
+  runtime: java8
+  stage: dev
+  region: us-east-1
+  environment:
+    LIB_CALC: 'calc'
+
+package:
+  artifact: build/distributions/calc.zip
+
+functions:
+  sum:
+    handler: com.serverless.Handler
+    layers:
+      - { Ref: CalculatorLambdaLayer }
+    events:
+      - http:
+          path: calc/sum
+          method: post
+
+  mult:
+    handler: com.serverless.Handler
+    layers:
+      - { Ref: CalculatorLambdaLayer }
+    events:
+      - http:
+          path: calc/sum
+          method: post
+
+layers:
+  calculator:
+    path: ../calculator-lib
+    name: ${self:provider.stage}-calculator-layer
+    description: Native library that implements a calculator
+    compatibleRuntimes:
+      - java8
