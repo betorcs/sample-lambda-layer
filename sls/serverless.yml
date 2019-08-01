@@ -1,4 +1,4 @@
-service: calc # NOTE: update this with your service name
+service: calc
 
 provider:
   name: aws
@@ -12,22 +12,13 @@ package:
   artifact: build/distributions/calc.zip
 
 functions:
-  sum:
+  calc:
     handler: com.serverless.Handler
     layers:
       - { Ref: CalculatorLambdaLayer }
     events:
       - http:
-          path: calc/sum
-          method: post
-
-  mult:
-    handler: com.serverless.Handler
-    layers:
-      - { Ref: CalculatorLambdaLayer }
-    events:
-      - http:
-          path: calc/sum
+          path: calc
           method: post
 
 layers:
